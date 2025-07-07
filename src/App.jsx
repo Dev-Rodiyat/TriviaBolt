@@ -299,7 +299,6 @@ export default function App() {
           <div className="text-center space-y-3">
             <div className="flex justify-center items-center gap-2">
               <h2 className="text-2xl font-bold">{weather.name}, {weather.sys.country}</h2>
-              {console.log({ weather })}
               <img
                 src={getFlagUrl(weather.sys.country)}
                 alt={weather.sys.country}
