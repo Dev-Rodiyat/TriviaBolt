@@ -1,12 +1,29 @@
-# React + Vite
+# 🌦️ React Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek and modern weather application built with **React**, **Tailwind CSS**, **Framer Motion**, and the **OpenWeatherMap API**. It displays real-time weather conditions, a 5-day forecast, local time, sunrise/sunset info, and allows users to save favorite cities — all wrapped in a dynamic background that changes with time and weather conditions.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔍 **City Search** – Search and view weather in any city worldwide.
+- 📍 **Auto Location Detection** – Detects and shows weather for your current location.
+- 🕒 **Local Time Display** – Shows local time of the selected city based on timezone.
+- 🌅 **Sunrise & Sunset Times** – Accurate daily sunrise and sunset info.
+- 🌤 **5-Day Forecast** – Toggle between current weather and 5-day hourly forecast.
+- 🖼️ **Dynamic Backgrounds** – Background gradients change with time and weather conditions.
+- ⭐ **Favorites** – Save and quickly access favorite cities via a dropdown.
+- 🇺🇳 **Country Flags** – Displays national flag based on country code.
+- 💾 **Local Storage** – Saves favorites in browser memory.
+- 🌀 **Framer Motion Animations** – Smooth transitions and card animations.
+- 📱 **Responsive Design** – Works beautifully on all screen sizes.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/weather-app.git
+cd weather-app
