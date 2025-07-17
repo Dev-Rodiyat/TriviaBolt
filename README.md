@@ -1,4 +1,4 @@
-## 🧠 TriviaBolt – Trivia Quiz App
+## TriviaBolt⚡ – Trivia Quiz App
 
 **TriviaBolt** is a modern, responsive trivia quiz app built with **React**, **Redux Toolkit**, and the **Open Trivia Database API**. Users can customize quiz settings, choose categories, difficulty levels, and question types, and test their knowledge in a fun and interactive interface.
 
