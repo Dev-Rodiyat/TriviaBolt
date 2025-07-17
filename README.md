@@ -38,6 +38,26 @@
 
 ---
 
+## ⚠️ API Rate Limit Handling (429 Error)
+
+This project uses the [Open Trivia DB API](https://opentdb.com) to fetch quiz questions. The API is public and **rate-limited**, which means:
+
+> If too many users make requests in a short time, the API may return a `429 Too Many Requests` error.
+
+To prevent this and keep the app reliable during demos or competition submissions:
+
+✅ **Category Caching:**  
+- Categories are fetched once and stored in `localStorage`.
+
+✅ **Graceful Error Handling:**  
+- Users are shown a helpful toast message if the API fails.
+- The app doesn't crash if the API is unreachable.
+
+✅ **Fallback Questions:**  
+- A set of fallback quiz questions can be used to keep the game playable even when the API fails.
+
+---
+
 ### 📦 Installation
 
 ```bash

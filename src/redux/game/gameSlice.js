@@ -1,26 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const fallbackQuestions = [
-    {
-        category: 'General Knowledge',
-        type: 'multiple',
-        difficulty: 'easy',
-        question: 'What is the capital of France?',
-        correct_answer: 'Paris',
-        incorrect_answers: ['Lyon', 'Marseille', 'Nice'],
-        answers: shuffleArray(['Paris', 'Lyon', 'Marseille', 'Nice']),
-    },
-    {
-        category: 'Science & Nature',
-        type: 'multiple',
-        difficulty: 'easy',
-        question: 'What gas do plants absorb from the atmosphere?',
-        correct_answer: 'Carbon Dioxide',
-        incorrect_answers: ['Oxygen', 'Nitrogen', 'Helium'],
-        answers: shuffleArray(['Carbon Dioxide', 'Oxygen', 'Nitrogen', 'Helium']),
-    },
-]
+import { toast } from 'react-toastify'
+import fallbackQuestions from '../../data/fallbackQuestions'
 
 function decodeHtml(html) {
     const txt = document.createElement('textarea')
@@ -34,14 +15,25 @@ function shuffleArray(array) {
 
 export const fetchQuestions = createAsyncThunk(
     'game/fetchQuestions',
-    async ({ amount = 10, category = '', difficulty = '', type = 'multiple' }) => {
+    async (options, { rejectWithValue }) => {
         try {
-            const url = `https://opentdb.com/api.php?amount=${amount}&type=${type}${category ? `&category=${category}` : ''
-                }${difficulty ? `&difficulty=${difficulty}` : ''}`
+            const { category, difficulty, type, amount } = options
+            const query = new URLSearchParams()
 
-            const response = await axios.get(url)
+            if (category) query.append('category', category)
+            if (difficulty) query.append('difficulty', difficulty)
+            if (type) query.append('type', type)
+            query.append('amount', amount)
 
-            const decodedQuestions = response.data.results.map((q) => {
+            const response = await axios.get(`https://opentdb.com/api.php?${query}`)
+
+            const rawQuestions = response.data.results
+
+            if (!rawQuestions || response.data.response_code !== 0) {
+                throw new Error('API returned no results')
+            }
+
+            const processed = rawQuestions.map((q) => {
                 const allAnswers = [...q.incorrect_answers, q.correct_answer]
                 const decodedAnswers = allAnswers.map(decodeHtml)
                 return {
@@ -53,24 +45,40 @@ export const fetchQuestions = createAsyncThunk(
                 }
             })
 
-            return decodedQuestions
-        } catch (error) {
-            console.warn('⚠️ API failed, using fallback questions:', error.message)
-            return fallbackQuestions
+            return processed
+        } catch (err) {
+            if (err.response?.status === 429) {
+                toast.warn('API limit reached — using fallback questions.')
+
+                const processedFallback = fallbackQuestions.map((q) => {
+                    const allAnswers = [...q.incorrect_answers, q.correct_answer]
+                    const decodedAnswers = allAnswers.map(decodeHtml)
+                    return {
+                        ...q,
+                        question: decodeHtml(q.question),
+                        correct_answer: decodeHtml(q.correct_answer),
+                        incorrect_answers: q.incorrect_answers.map(decodeHtml),
+                        answers: shuffleArray(decodedAnswers),
+                    }
+                })
+
+                return processedFallback
+            }
+            return rejectWithValue(err.message || 'Failed to fetch questions')
         }
     }
 )
 
 const initialState = {
-  questions: [],
-  currentQuestionIndex: 0,
-  selectedAnswer: null,
-  userAnswers: [],
-  score: 0,
-  isGameOver: false,
-  status: 'idle',
-  error: null,
-  options: null
+    questions: [],
+    currentQuestionIndex: 0,
+    selectedAnswer: null,
+    userAnswers: [],
+    score: 0,
+    isGameOver: false,
+    status: 'idle',
+    error: null,
+    options: null,
 }
 
 const gameSlice = createSlice({
@@ -96,13 +104,18 @@ const gameSlice = createSlice({
                 state.selectedAnswer = null
             } else {
                 state.isGameOver = true
+
                 const scores = JSON.parse(localStorage.getItem('triviabolt-scores')) || []
-                scores.push({
-                    name: '',
-                    score: state.score,
-                    date: Date.now(),
-                })
-                localStorage.setItem('triviabolt-scores', JSON.stringify(scores))
+                const username = localStorage.getItem('triviabolt-username') || ''
+
+                if (username.trim()) {
+                    scores.push({
+                        name: username,
+                        score: state.score,
+                        date: Date.now(),
+                    })
+                    localStorage.setItem('triviabolt-scores', JSON.stringify(scores))
+                }
             }
         },
         setQuizOptions: (state, action) => {

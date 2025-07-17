@@ -41,7 +41,7 @@ const Play = () => {
         }
 
         dispatch(resetGame())
-        dispatch(fetchQuestions(options)) // ✅ Use options from Redux state
+        dispatch(fetchQuestions(options))
     }, [dispatch, username, navigate, options])
 
     useEffect(() => {
