@@ -20,7 +20,6 @@ const Play = () => {
     const {
         questions,
         currentQuestionIndex,
-        score,
         status,
         error,
         isGameOver,
