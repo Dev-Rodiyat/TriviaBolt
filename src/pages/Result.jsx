@@ -101,7 +101,7 @@ export default function Result() {
 
                 <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
                     <Link
-                        to="/play"
+                        to="/setup"
                         onClick={handleReset}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-xl transition"
                     >
