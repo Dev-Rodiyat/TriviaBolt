@@ -9,20 +9,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUsername } from '../redux/user/userSlice'
 
 const Home = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const username = useSelector((state) => state.user.username)
-
-    const handleStartGame = () => {
-        if (username.trim().length < 2) {
-            toast.error("Username must be at least 2 characters long");
-            return;
-        }
-
-        dispatch(setUsername(username.trim()))
-        navigate('/play')
-    }
-
     const howItWorks = [
         {
             icon: <FaUser className="text-yellow-400 text-3xl mb-3" />,
@@ -74,7 +60,7 @@ const Home = () => {
                         <button
                             className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-semibold py-3 px-6 rounded-md w-full transition duration-200"
                         >
-                            Setup Quiz
+                            Start Quiz
                         </button>
                     </Link>
                 </motion.div>

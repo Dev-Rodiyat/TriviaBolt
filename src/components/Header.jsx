@@ -8,7 +8,7 @@ const Header = () => {
 
   const navLinks = [
   { label: 'Home', path: '/' },
-  { label: 'Play', path: '/play' },
+  { label: 'Start Quiz', path: '/setup' },
   { label: 'Scoreboard', path: '/scoreboard' }
 ]
 

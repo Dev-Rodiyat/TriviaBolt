@@ -101,7 +101,7 @@ const Scoreboard = () => {
                                 No scores yet. Play a game to add yours!
                             </p>
                             <Link
-                                to="/play"
+                                to="/setup"
                                 className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-lg transition duration-300"
                             >
                                 🎮 Play Now
